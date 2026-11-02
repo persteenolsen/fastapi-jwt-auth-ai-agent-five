@@ -121,7 +121,8 @@ async def chat(
 # HEALTH
 # ------------------------------
 @router.get("/health")
-def health():
+def health(
+    user: str = Depends(verify_token),):
     groq_live = False
 
     try:
@@ -140,7 +141,7 @@ def health():
 # TEST GROQ
 # ------------------------------
 @router.get("/test-groq")
-def test_groq():
+def test_groq( user: str = Depends(verify_token)):
     try:
         res = llm.invoke("Tell me a joke")
 
@@ -162,7 +163,7 @@ def test_groq():
 # TEST WIKIPEDIA
 # ------------------------------
 @router.get("/test-wikipedia")
-def test_wikipedia():
+def test_wikipedia(user: str = Depends(verify_token),):
     try:
         result = wikipedia_tool("What is Python?")
 
